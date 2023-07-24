@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CartManager } from "../controllers/CartManager.js";
+import { CartManager } from "../dao/mongo-mager/cartmanager.js";
 
 const router = Router();
 const cartManager = new CartManager("./src/assets/carts.json");

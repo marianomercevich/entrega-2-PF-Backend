@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { ProductManager } from '../controllers/ProductManager.js';
+import { ProductManager } from '../dao/mongo-mager/productmanager.js';
 
 const router = Router();
 const productManager = new ProductManager('./src/assets/products.json');
