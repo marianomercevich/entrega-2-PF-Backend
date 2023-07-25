@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+/* import "../assets/products.json" assert { type: "json" }; */
 import { ProductManager } from "../dao/file-manager/ProductManager.js";
 import { MongoDBProductManager } from "../dao/mongo-manager/productmanager.js";
 
@@ -21,7 +21,7 @@ router.get("/:pid", async (request, response) => {
 
 router.post("/", async (request, response) => {
   await managerDB.addProduct(request, response)
-});
+});/* aca hay un problema */
 
 router.put("/:pid", async (request, response) => {
   await managerDB.updateProduct(request, response);

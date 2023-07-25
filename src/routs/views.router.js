@@ -6,7 +6,7 @@ const managerDB = new MongoDBProductManager();
 
 router.get("/", async (req, res) => {
   const products = await managerDB.limitHandler(req, res);
-  res.render("products", {products});
+   res.render("Products", products);
 });
 
 export default router;
