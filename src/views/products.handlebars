@@ -24,12 +24,7 @@
                 <td>{{this.code}}</td>
                 <td>{{this.stock}}</td>
                 <td>{{this.category}}</td>
-                <td>
-                <form method="POST" action="/api/cart/2/products/{{this.code}}">
-                <input type="hidden" name="productId" value="{{this.code}}" />
-                <button type="submit">Agregar</button>
-                </form>
-            </td>
+
             </tr>
             {{/each}}
         </tbody>

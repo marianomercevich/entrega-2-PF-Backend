@@ -2,7 +2,7 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import productsRouter from './routs/products.router.js';
 import cartsRouter from './routs/carts.router.js';
-import viewsRouter from './routs/views.router.js';
+import viewRouter from './routs/views.router.js';
 import mongoose, {mongo} from 'mongoose';
 
 const app = express();
@@ -22,7 +22,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static('./src/public'));
 
 app.get('/', (req, res) => res.render('index'));
-app.use('/products', viewsRouter);
+app.use('/products', viewRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 

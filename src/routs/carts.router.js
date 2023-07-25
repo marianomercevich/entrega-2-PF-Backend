@@ -1,13 +1,14 @@
 import { Router, query } from "express";
-import "../assets/carts.json" assert { type: "json" };
+
 import { ProductManager } from "../dao/file-manager/ProductManager.js";
-/* import { MongoDBProductManager } from "../dao/mongo-manager/productmanager.js"; */
+
 import { cartManagerDB } from "../dao/mongo-manager/CartManager.js"
 
 const router = Router();
 const manager = new ProductManager(
   "../assets/carts.json"
 );
+
 
 const managerDB = new cartManagerDB();
 

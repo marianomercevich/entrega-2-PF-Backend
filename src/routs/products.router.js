@@ -1,5 +1,5 @@
 import { Router } from "express";
-import "../assets/products.json" assert { type: "json" };
+
 import { ProductManager } from "../dao/file-manager/ProductManager.js";
 import { MongoDBProductManager } from "../dao/mongo-manager/productmanager.js";
 
