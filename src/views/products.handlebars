@@ -1,0 +1,46 @@
+<h1 class="text-light" >Productos</h1>
+<br>
+<hr />
+<div>
+    
+    <table class="table table-dark table-striped">
+        <thead >
+            <tr>
+                
+                <td>Producto</td>
+                <td>Descripción</td>
+                <td>Precio</td>
+                <td>Código</td>
+                <td>Stock</td>
+                <td>Categoría</td>
+            </tr>
+        </thead>
+        <tbody >
+            {{#each products}}
+            <tr class="text-white">
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.code}}</td>
+                <td>{{this.stock}}</td>
+                <td>{{this.category}}</td>
+                <td>
+                <form method="POST" action="/api/cart/2/products/{{this.code}}">
+                <input type="hidden" name="productId" value="{{this.code}}" />
+                <button type="submit">Agregar</button>
+                </form>
+            </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div>
+        {{#if hasPrevPage}}
+        <a href="{{prevLink}}">Anterior</a>
+        {{/if}}
+        {{#if hasNextPage}}
+        <a href="{{nextLink}}">Siguiente</a>
+        {{/if}}
+    </div>
+</div>

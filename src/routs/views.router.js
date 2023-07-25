@@ -1,22 +1,12 @@
-import { Router } from 'express';
-import { ProductManager } from '../dao/mongo-mager/productmanager.js';
+import { Router } from "express";
+import { MongoDBProductManager } from "../dao/mongo-manager/productmanager.js";
 
 const router = Router();
-const productManager = new ProductManager('./src/assets/products.json');
+const managerDB = new MongoDBProductManager();
 
-
-  router.get('/', async (req, res) => {
-    const products = await productManager.getProducts()
-    res.render('home', { products })
-})
-
-
-router.get('/realTimeProducts', async (req, res) => {
-  const products = await productManager.getProducts()
-  res.render('realTimeProducts', { products })
-})
-
-
-
+router.get("/:cid", async (request, response) => {
+  const result = await managerDB.limitHandler(request, response);
+  response.render("products", result);
+});
 
 export default router;

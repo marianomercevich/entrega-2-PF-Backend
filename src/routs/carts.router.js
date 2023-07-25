@@ -1,78 +1,49 @@
-import { Router } from "express";
-import { CartManager } from "../dao/mongo-mager/cartmanager.js";
+import { Router, query } from "express";
+import "../assets/carts.json" assert { type: "json" };
+import { ProductManager } from "../dao/file-manager/ProductManager.js";
+/* import { MongoDBProductManager } from "../dao/mongo-manager/productmanager.js"; */
+import { cartManagerDB } from "../dao/mongo-manager/CartManager.js"
 
 const router = Router();
-const cartManager = new CartManager("./src/assets/carts.json");
+const manager = new ProductManager(
+  "../assets/carts.json"
+);
 
-router.get('/', async (req, res) => {
-  const limit = req.query.limit;
-  let carts = await cartManager.getCarts();
+const managerDB = new cartManagerDB();
 
-  if (!limit) {
-    res.send(carts);
-  } else {
-    let arrayLimited = [];
-    for (let i = 0; i < limit; i++) {
-      arrayLimited.push(carts[i]);
-    }
-    res.send(arrayLimited);
-  }
+router.post("/", async (request, response) => {
+  managerDB.createCart(request, response);
 });
 
-// Consulta de carrito por id
-router.get("/:cid", async (req, res) => {
-  try {
-    const cartId = parseInt(req.params.cid);
-
-    const cart = await cartManager.getCartsById(cartId);
-
-    if (!cart) {
-      return res
-        .status(404)
-        .json({ error: `El carrito con el id ${cartId} no existe` });
-    }
-
-    res.send(cart);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Error en el servidor" });
-  }
+router.get("/:cid", async (request, response) => {
+  const id = Number(request.params.cid);
+  response.send(await managerDB.getProductById(id, response));
 });
 
-// Creación de un nuevo carrito
-router.post("/", async (req, res) => {
-  try {
-    await cartManager.addCart();
-    res.json({ message: "Carrito creado correctamente" });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Error en el servidor" });
-  }
+router.post("/:cid/products/:pid", async (request, response) => {
+  managerDB.addProductInCart(request, response);
 });
 
-// Agregado de productos al carrito
-router.post("/:cid/products/:pid", async (req, res) => {
-  try {
-    const cartId = parseInt(req.params.cid);
-    const productId = parseInt(req.params.pid);
+router.delete("/:cid/products/:pid", async (request, response) => {
+  await managerDB.deleteProduct(request, response);
+});
 
-    if (isNaN(productId) || productId <= 0) {
-      return res.status(400).json({ error: "Producto no válido" });
-    }
+router.delete("/:cid", async (request, response) => {
+  await managerDB.deleteProducts(request, response);
+});
 
-    const cart = await cartManager.addProductsToCart(cartId, productId);
+router.put("/:cid/products/:pid", async (request, response) => {
+  await managerDB.updateQty(request, response);
+});
 
-    if (!cart) {
-      return res
-        .status(404)
-        .json({ error: `El carrito con el id ${cartId} no existe` });
-    }
+router.put("/:cid", async (request, response) => {
+  await managerDB.updateAllCart(request, response);
+});
 
-    res.json(cart);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Error en el servidor" });
-  }
+router.get("/carts/:cid", async (request, response) => {
+  const id = Number(request.params.cid);
+  const result = await managerDB.getProductById(id, response);
+  response.render("cart", result);
 });
 
 export default router;

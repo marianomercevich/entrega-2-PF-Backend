@@ -1,5 +1,4 @@
 import express from 'express';
-import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import productsRouter from './routs/products.router.js';
 import cartsRouter from './routs/carts.router.js';
